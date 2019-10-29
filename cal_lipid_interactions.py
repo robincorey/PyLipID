@@ -14,6 +14,8 @@ import sys
 from collections import defaultdict
 import pickle
 import os
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib.ticker import NullFormatter
 from scipy import stats
 import matplotlib.pyplot as plt
@@ -33,7 +35,7 @@ import community
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", nargs="+", metavar="./run/md.xtc", help="List of trajectories, seperated by space, \
-                     Support xtc, gro format. Used by mdtraj.load()")
+                     Supports xtc, gro format. Used by mdtraj.load()")
 parser.add_argument("-c", nargs="+", metavar="./run/system.gro", \
                     help="List of coordinates of trajectory, in the same order as -f, required when inputs of -f are xtc trajectories, \
                     Supported format: gro, pdb, etc., Used by mdtraj.load()")
@@ -52,16 +54,16 @@ parser.add_argument("-nprot", default=1, metavar="1", \
 parser.add_argument("-resi_offset", default=0, metavar="0", \
                     help="Shifting the residue index. Usful when using martinize.py for proteins with missing residues at N-terminus.")
 parser.add_argument("-natoms_per_protein", default=None,  metavar="None", \
-                    help="Number of atoms/beads the protein contains, eps useful when the system has multiple copies \
+                    help="Number of atoms/beads the protein contains, esp useful when the system has multiple copies \
                     of the protein. If not specificied, the algorithm will deduce by dividing the num. of atoms in the selection of 'protein' by num. of proteins that \
                     is defined by -nprot.")
 parser.add_argument("-plot_koff", nargs="?", default=True, const=True, metavar="True", \
-                    help="Creat a directory koff_{lipid} for each lipid species, in which a figure of the sorted interaction duration \
-                    and fitted koff curve will be plot for each residue.")
+                    help="Create a directory koff_{lipid} for each lipid species, in which a figure of the sorted interaction duration \
+                    and fitted koff curve will be plotted for each residue.")
 parser.add_argument("-plot_duration", nargs="?", default=False, const=True, metavar="True", \
                     help="Plot the averaged interaction duration as a funtion of residue ID for each lipid species.")
 parser.add_argument("-plot_occupancy",nargs="?",  default=False, const=True, metavar="True", \
-                    help="Plot the average occupancy as a function of reisude ID fror each lipid species.")
+                    help="Plot the average occupancy as a function of reisdue ID fror each lipid species.")
 parser.add_argument("-plot_lipidcount", nargs="?", default=False, const=True, metavar="True", \
                     help="Plot the average num. of surrounding lipid as a function of residue ID for each lipid species.")
 parser.add_argument("-helix_regions", nargs="*", metavar="8,36", default="8,36 43,71 77,110 120,144 178,208 225,260 270,294 297,306",
